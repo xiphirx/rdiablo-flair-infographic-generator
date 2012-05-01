@@ -2,6 +2,7 @@
 ##############
 *.cfg
 *.png
+*.zip
 
 # OS generated files #
 ######################
