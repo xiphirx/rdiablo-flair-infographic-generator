@@ -26,3 +26,8 @@ mysupersecretpassword12345
 Not included in this repository are image files that the program relies on. Please download them seperately from the link below and extract the contents next to "infographic.py". 
 
 http://dl.dropbox.com/u/72768525/flair-infographic-generator/images.zip
+
+#Module Requirements
+
+* Mellort's reddit api python module: https://github.com/mellort/reddit_api
+* pygame: http://www.pygame.org/
