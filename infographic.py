@@ -366,5 +366,5 @@ print ' -----------------------------------------'
 print '| Total flair users: ' + str(rdiablo.totalFlair)
 print ' -----------------------------------------'
 
-#rdiablo.saveFlairInformation()
+rdiablo.saveFlairInformation()
 rdiablo.generate()
