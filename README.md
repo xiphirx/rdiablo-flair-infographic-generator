@@ -7,7 +7,8 @@ Generator bot that produces the infographics seen on r/diablo!
 
 Clone and create a file named 'config.cfg'. You will then need to provide moderator credentials inside the file like so: 
 
-```moderator's username
+```
+moderator's username
 moderator's password
 ```
 
@@ -15,6 +16,7 @@ moderator's password
 
 Example config file:
 
-```Xiphirx
+```
+Xiphirx
 mysupersecretpassword12345
 ```
