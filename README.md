@@ -5,7 +5,7 @@ Generator bot that produces the infographics seen on r/diablo!
 
 #Setup
 
-Clone and create a file named 'config.cfg'. You will then need to provide moderator credentials inside the file like so: 
+Clone and create a file named 'config.cfg' and place it right next to 'infographic.py'. You will then need to provide moderator credentials inside the file like so: 
 
 ```
 moderator's username
