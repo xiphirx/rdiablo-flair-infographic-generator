@@ -53,26 +53,15 @@ class Infographic:
     prevTotalMonk = 0
     prevTotalWizard = 0
 
-    # Remove these after d3 comes out
-    totalUSWest = 0
-    totalUSEast = 0
-    totalEurope = 0
-    totalAsia = 0
-    totalBeta = 0
-    totalReddit = 0
-
-    prevTotalUSWest = 0
-    prevTotalUSEast = 0
-    prevTotalEurope = 0
-    prevTotalAsia = 0
-    prevTotalBeta = 0
-    prevTotalReddit = 0
-    # and uncomment these
-    """
     totalAmericas = 0
     totalEurope = 0
     totalAsia = 0
-    """
+    totalReddit = 0
+
+    prevTotalAmericas = 0
+    prevTotalEurope = 0
+    prevTotalAsia = 0
+    prevTotalReddit = 0
 
     def __init__(self):
         self.r = reddit.Reddit(user_agent='/r/diablo flair infographic bot')
@@ -95,30 +84,26 @@ class Infographic:
         self.prevTotalWitchDoctor = int(saveFile.readline())
         self.prevTotalMonk = int(saveFile.readline())
         self.prevTotalWizard = int(saveFile.readline())
-        self.prevTotalUSWest = int(saveFile.readline())
-        self.prevTotalUSEast = int(saveFile.readline())
+        self.prevTotalAmericas = int(saveFile.readline())
         self.prevTotalEurope = int(saveFile.readline())
         self.prevTotalAsia = int(saveFile.readline())
-        self.prevTotalBeta = int(saveFile.readline())
         self.prevTotalReddit = int(saveFile.readline())
         saveFile.close()
 
     def grabFlairInformation(self):
         """Temp garbage values to eliminate the costly polling process"""
         """
-        self.totalFlair = 16000
-        self.totalSubscribers = 42134
-        self.totalBarbarian = 2500
-        self.totalDemonHunter = 1900
-        self.totalWitchDoctor = 2000
-        self.totalMonk = 2100
-        self.totalWizard = 1500
-        self.totalUSWest = 2500
-        self.totalUSEast = 3500
-        self.totalEurope = 2600
-        self.totalAsia = 200
-        self.totalBeta = 300
-        self.totalReddit = 1500
+        self.totalFlair = 18679
+        self.totalSubscribers = 65373
+        self.totalBarbarian = 3959
+        self.totalDemonHunter = 3566
+        self.totalWitchDoctor = 3390
+        self.totalMonk = 3912
+        self.totalWizard = 3848
+        self.totalAmericas = 11601
+        self.totalEurope = 4212
+        self.totalAsia = 248
+        self.totalReddit = 2614
         """
         n = ''
         done = False
@@ -150,14 +135,12 @@ class Infographic:
                     elif (userClass == 'witchdoc'): self.totalWitchDoctor += 1
                     elif (userClass == 'demonhunt'): self.totalDemonHunter += 1
 
-                    if (userRealm == 'uswest'): self.totalUSWest += 1
-                    elif (userRealm == 'useast'): self.totalUSEast += 1
+                    if (userRealm == 'americas'): self.totalAmericas += 1
                     elif (userRealm == 'europe'): self.totalEurope += 1
                     elif (userRealm == 'asia'): self.totalAsia += 1
-                    elif (userRealm == 'beta'): self.totalBeta += 1
                     elif (userRealm == 'reddit'): self.totalReddit += 1
                     #else: print userRealm
-
+        
 
     def saveFlairInformation(self):
         if  self.totalFlair == self.prevTotalFlair and \
@@ -167,11 +150,9 @@ class Infographic:
             self.totalWitchDoctor == self.prevTotalWitchDoctor and \
             self.totalMonk == self.prevTotalMonk and \
             self.totalWizard == self.prevTotalWizard and \
-            self.totalUSWest == self.prevTotalUSWest and \
-            self.totalUSEast == self.prevTotalUSEast and \
+            self.totalAmericas == self.prevTotalUSWest and \
             self.totalEurope == self.prevTotalEurope and \
             self.totalAsia == self.prevTotalAsia and \
-            self.totalBeta == self.prevTotalBeta and \
             self.totalReddit == self.prevTotalReddit:
                 pass #there was no change in information...
         else:
@@ -183,11 +164,9 @@ class Infographic:
             saveFile.write(str(self.totalWitchDoctor)+'\n')
             saveFile.write(str(self.totalMonk)+'\n')
             saveFile.write(str(self.totalWizard)+'\n')
-            saveFile.write(str(self.totalUSWest)+'\n')
-            saveFile.write(str(self.totalUSEast)+'\n')
+            saveFile.write(str(self.totalAmericas)+'\n')
             saveFile.write(str(self.totalEurope)+'\n')
             saveFile.write(str(self.totalAsia)+'\n')
-            saveFile.write(str(self.totalBeta)+'\n')
             saveFile.write(str(self.totalReddit))
             saveFile.close()
 
@@ -300,17 +279,11 @@ class Infographic:
             Text('-' + str(int(float(self.prevTotalFlair - self.totalFlair)/float(self.prevTotalFlair)*100)) +'%', 12, numFlair.x - int(float(numFlair.getWidth() / 2)), 508, (209,1,1)).render(screen)
 
         #Regional stats
-        #USWest
-        textUSWest = Text(str(int(float(self.totalUSWest)/float(self.totalFlair)*100)) + '%', 18, 271, 790, (255,255,255))
-        textUSWest.setAlignment('c')
-        textUSWest.render(screen)
-        Text(str(self.totalUSWest), 12, textUSWest.x - int(float(textUSWest.getWidth()) / 2), textUSWest.y + 20, (255,255,255)).render(screen)
-
-        #USEast
-        textUSEast = Text(str(int(float(self.totalUSEast)/float(self.totalFlair)*100)) + '%', 18, 359, 790, (255,255,255))
-        textUSEast.setAlignment('c')
-        textUSEast.render(screen)
-        Text(str(self.totalUSEast), 12, textUSEast.x - int(float(textUSEast.getWidth()) / 2), textUSEast.y + 20, (255,255,255)).render(screen)
+        #Americas
+        textAmericas = Text(str(int(float(self.totalAmericas)/float(self.totalFlair)*100)) + '%', 18, 310, 790, (255,255,255))
+        textAmericas.setAlignment('c')
+        textAmericas.render(screen)
+        Text(str(self.totalAmericas), 12, textAmericas.x - int(float(textAmericas.getWidth()) / 2), textAmericas.y + 20, (255,255,255)).render(screen)
 
         #Europe
         textEurope = Text(str(int(float(self.totalEurope)/float(self.totalFlair)*100)) + '%', 18, 620, 790, (255,255,255))
@@ -324,10 +297,16 @@ class Infographic:
         textAsia.render(screen)
         Text(str(self.totalAsia), 12, textAsia.x - int(float(textAsia.getWidth()) / 2), textAsia.y + 20, (255,255,255)).render(screen)
 
+        #Slashdiablo
+        textSlashDiablo = Text(str(int(float(self.totalReddit)/float(self.totalFlair)*100)) + '%', 18, 582, 1030, (255,255,255))
+        textSlashDiablo.setAlignment('c')
+        textSlashDiablo.render(screen)
+        Text(str(self.totalReddit), 12, textSlashDiablo.x - int(float(textSlashDiablo.getWidth()) / 2), textSlashDiablo.y + 20, (255,255,255)).render(screen)
+        
         #Credits and stuff
-        Text('* DATA MAY BE OFF DUE TO ROUNDING', 12, 219, 1105, (4,95,88)).render(screen)
-        Text('* PUT TOGETHER BY XIPHIRX AND PYTHON', 12, 219, 1117, (4,95,88)).render(screen)
-        Text(str(self.totalBeta) + ' (' + str(int(float(self.totalBeta)/float(self.totalFlair)*100)) + '%) REPORTED BETA PLAYERS', 24, 219, 1059, (4,95,88)).render(screen)
+        Text('* DATA MAY BE OFF DUE TO ROUNDING', 12, 219, 1165, (4,95,88)).render(screen)
+        Text('* PUT TOGETHER BY XIPHIRX AND PYTHON', 12, 219, 1177, (4,95,88)).render(screen)
+        
 
         #Save the image
         pygame.image.save(screen, 'infographics/' +now.strftime('%m-%d-%Y-') + 'Infographic.png')
@@ -355,11 +334,9 @@ print '| Total Wizard: ' + str(rdiablo.totalWizard)
 print ' -----------------------------------------'
 print ' Quick Realm Stats:'
 print ' -----------------------------------------'
-print '| Total USWest: ' + str(rdiablo.totalUSWest)
-print '| Total USEast: ' + str(rdiablo.totalUSEast)
+print '| Total Americas: ' + str(rdiablo.totalAmericas)
 print '| Total Europe: ' + str(rdiablo.totalEurope)
 print '| Total Asia: ' + str(rdiablo.totalAsia)
-print '| Total Beta: ' + str(rdiablo.totalBeta)
 print '| Total Reddit: ' + str(rdiablo.totalReddit)
 print ' -----------------------------------------'
 print ' -----------------------------------------'
