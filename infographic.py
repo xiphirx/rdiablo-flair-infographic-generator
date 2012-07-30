@@ -1,9 +1,10 @@
 import pygame
-import reddit
+import praw
 import json
 import datetime
 import pickle
 import operator
+import math
 
 class Text:
     x = 0
@@ -57,7 +58,7 @@ class Infographic:
     totalSubscribers = 0
 
     def __init__(self):
-        self.r = reddit.Reddit(user_agent='/r/diablo flair infographic bot')
+        self.r = praw.Reddit(user_agent='/r/diablo flair infographic bot')
         configFile = open('config.cfg', 'r')
         user = configFile.readline().rstrip('\n')
         password = configFile.readline().rstrip('\n')
@@ -140,20 +141,20 @@ class Infographic:
 
         # Display individual class stats
         for playerClass in self.classes:
-            width = int((float(self.totalClass[playerClass]) / self.totalFlair) * fillWidth)
+            width = int(math.ceil(float(self.totalClass[playerClass]) / self.totalFlair * fillWidth))
             fill = pygame.transform.scale(fill, (width, 24))
             screen.blit(fill, (320, self.imageOffsets[playerClass]))
             screen.blit(head, (320 + fill.get_width() - 18, self.imageOffsets[playerClass]))
-            Text(str(int(float(self.totalClass[playerClass])/float(self.totalFlair)*100)) + '%', 24, 320 + fill.get_width() + 10, self.imageOffsets[playerClass], (255,255,255)).render(screen)
+            Text(str(int(math.ceil(float(self.totalClass[playerClass]) / self.totalFlair * 100))) + '%', 24, 320 + fill.get_width() + 10, self.imageOffsets[playerClass], (255,255,255)).render(screen)
             numClass = Text(str(self.totalClass[playerClass]), 12, 320 + fill.get_width(), self.imageOffsets[playerClass] + 31, (209,1,1))
             numClass.setAlignment('c')
             numClass.render(screen)
        
         #FlairTotal
-        fill = pygame.transform.scale(fill, (int((float(self.totalFlair)/(self.totalSubscribers))*fillWidth),24))
+        fill = pygame.transform.scale(fill, (int(math.ceil(float(self.totalFlair) / self.totalSubscribers * fillWidth)), 24))
         screen.blit(fill, (320, 528))
         screen.blit(head, (320 + fill.get_width() - 18, 528))
-        Text(str(int(float(self.totalFlair)/float(self.totalSubscribers)*100)) + '%', 24, 320 + fill.get_width() + 10, 528, (255,255,255)).render(screen)
+        Text(str(int(math.ceil(float(self.totalFlair) / self.totalSubscribers * 100))) + '%', 24, 320 + fill.get_width() + 10, 528, (255,255,255)).render(screen)
         numFlair = Text(str(self.totalFlair), 12, 320 + fill.get_width(), 559, (209,1,1))
         numFlair.setAlignment('c')
         numFlair.render(screen)
@@ -174,19 +175,19 @@ class Infographic:
 
         #Stat change for subscriber count
         if ((self.totalSubscribers - self.prevTotalSubscribers) > 0):
-            Text('+' + str(int(float(self.totalSubscribers - self.prevTotalSubscribers)/float(self.prevTotalSubscribers)*100)) + '% +' + str(self.totalSubscribers-self.prevTotalSubscribers), 12, 726, 572, (1,209,1)).render(screen)
+            Text('+' + str(int(math.ceil(float(self.totalSubscribers - self.prevTotalSubscribers) / self.prevTotalSubscribers * 100))) + '% +' + str(self.totalSubscribers-self.prevTotalSubscribers), 12, 726, 572, (1,209,1)).render(screen)
         elif((self.totalSubscribers - self.prevTotalSubscribers) < 0):
-            Text('-' + str(int(float(self.prevTotalSubscribers - self.totalSubscribers)/float(self.prevTotalSubscribers)*100)) + '% -' + str(self.totalSubscribers-self.prevTotalSubscribers), 12, 726, 572, (209,1,1)).render(screen)
+            Text('-' + str(int(math.ceil(float(self.prevTotalSubscribers - self.totalSubscribers) / self.prevTotalSubscribers * 100))) + '% -' + str(self.totalSubscribers-self.prevTotalSubscribers), 12, 726, 572, (209,1,1)).render(screen)
 
         #Stat change for flair count
         if ((self.totalFlair - self.prevTotalFlair) > 0):
-            Text('+' + str(int(float(self.totalFlair - self.prevTotalFlair)/float(self.prevTotalFlair)*100)) +'%', 12, numFlair.x - int(float(numFlair.getWidth() / 2)), 508, (1,209,1)).render(screen)
+            Text('+' + str(int(math.ceil(float(self.totalFlair - self.prevTotalFlair) / self.prevTotalFlair * 100))) +'%', 12, numFlair.x - int(float(numFlair.getWidth() / 2)), 508, (1,209,1)).render(screen)
         elif ((self.totalFlair - self.prevTotalFlair) < 0):
-            Text('-' + str(int(float(self.prevTotalFlair - self.totalFlair)/float(self.prevTotalFlair)*100)) +'%', 12, numFlair.x - int(float(numFlair.getWidth() / 2)), 508, (209,1,1)).render(screen)
+            Text('-' + str(int(math.ceil(float(self.prevTotalFlair - self.totalFlair) / self.prevTotalFlair * 100))) +'%', 12, numFlair.x - int(float(numFlair.getWidth() / 2)), 508, (209,1,1)).render(screen)
 
         #Regional stats
         for userRealm in self.realms:
-            textRealm = Text(str(int(float(self.totalRealm[userRealm])/float(self.totalFlair)*100)) + '%', 18, self.imageOffsets[userRealm][0], self.imageOffsets[userRealm][1], (255,255,255))
+            textRealm = Text(str(int(math.ceil(float(self.totalRealm[userRealm]) / self.totalFlair * 100))) + '%', 18, self.imageOffsets[userRealm][0], self.imageOffsets[userRealm][1], (255,255,255))
             textRealm.setAlignment('c')
             textRealm.render(screen)
             Text(str(self.totalRealm[userRealm]), 12, textRealm.x - int(float(textRealm.getWidth()) / 2), textRealm.y + 20, (255,255,255)).render(screen)
