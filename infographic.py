@@ -137,7 +137,7 @@ class Infographic:
 
         #Display dominant Class
         screen.blit(dominantClass, (screen.get_width() - dominantClass.get_width(),100))
-        dominantClassText = Text('DOMINATING CLASS', 18, 847, 133, (247,202,93)).render(screen)
+        dominantClassText = Text('DOMINANT CLASS', 18, 847, 133, (247,202,93)).render(screen)
 
         # Display individual class stats
         for playerClass in self.classes:
@@ -177,7 +177,7 @@ class Infographic:
         if ((self.totalSubscribers - self.prevTotalSubscribers) > 0):
             Text('+' + str(int(math.ceil(float(self.totalSubscribers - self.prevTotalSubscribers) / self.prevTotalSubscribers * 100))) + '% +' + str(self.totalSubscribers-self.prevTotalSubscribers), 12, 726, 572, (1,209,1)).render(screen)
         elif((self.totalSubscribers - self.prevTotalSubscribers) < 0):
-            Text('-' + str(int(math.ceil(float(self.prevTotalSubscribers - self.totalSubscribers) / self.prevTotalSubscribers * 100))) + '% -' + str(self.totalSubscribers-self.prevTotalSubscribers), 12, 726, 572, (209,1,1)).render(screen)
+            Text('-' + str(int(math.ceil(float(self.prevTotalSubscribers - self.totalSubscribers) / self.prevTotalSubscribers * 100))) + '% -' + str(self.prevTotalSubscribers-self.totalSubscribers), 12, 726, 572, (209,1,1)).render(screen)
 
         #Stat change for flair count
         if ((self.totalFlair - self.prevTotalFlair) > 0):
@@ -226,5 +226,5 @@ print ' -----------------------------------------'
 print '| Total flair users: ' + str(rdiablo.totalFlair)
 print ' -----------------------------------------'
 
-#rdiablo.saveFlairInformation()
+rdiablo.saveFlairInformation()
 rdiablo.generate()
